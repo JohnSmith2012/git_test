@@ -1,0 +1,4 @@
+gpa_mean = 84.214600, gpa_std = 7.980117
+tofel_mean = 90.157867, tofel_std = 17.252195
+gre_mean = 319.575867, gre_std = 8.848044
+gmat_mean = 691.031006, gmat_std = 63.558598

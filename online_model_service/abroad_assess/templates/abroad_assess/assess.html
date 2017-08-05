@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+  <title>留学评估</title>
+  <head>
+    <!--script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script-->
+    <!--link href="https://cdn.bootcss.com/semantic-ui/2.2.11/semantic.min.css" rel="stylesheet"-->
+    <!--script src="https://cdn.bootcss.com/semantic-ui/2.2.11/semantic.min.js"></script-->
+    <script src="/static/js/jquery.min.js"></script>
+    <link href="/static/css/semantic.min.css" rel="stylesheet">
+    <script src="/static/js/semantic.min.js"></script>
+  </head>
+
+  <body onload="init()">
+    <div class="ui center aligned segment">
+      <h2>留学评估</h2>
+    </div>
+
+    <div class="ui container">
+      <div class="ui segment">
+
+        <div class="ui labeled fluid input">
+          <div class="ui label">
+            申请优势:
+          </div>
+          <input type="text" id="apply_advantage" placeholder="">
+        </div>
+
+        <p></p>
+
+        <div class="ui labeled fluid input">
+          <div class="ui label">
+            申请劣势:
+          </div>
+          <input type="text" id="apply_disadvantage" placeholder="">
+        </div>
+
+        <p></p>
+
+        <div class="ui labeled input">
+          <div class="ui label">
+            托福:
+          </div>
+          <input type="text" id="tofel" placeholder="">
+        </div>
+
+        <div class="ui labeled input">
+          <div class="ui label">
+            雅思:
+          </div>
+          <input type="text" id="ielts" placeholder="">
+        </div>
+
+        <div class="ui labeled input">
+          <div class="ui label">
+            GRE:
+          </div>
+          <input type="text" id="gre" placeholder="">
+        </div>
+
+        <div class="ui labeled input">
+          <div class="ui label">
+            GMAT:
+          </div>
+          <input type="text" id="gmat" placeholder="">
+        </div>
+
+        <div class="ui labeled input">
+          <div class="ui label">
+            GPA:
+          </div>
+          <input type="text" id="gpa" placeholder="">
+        </div>
+
+        <p></p>
+
+        <div class="ui labeled fluid input">
+          <div class="ui label">
+            本科就读学校及专业:
+          </div>
+          <input type="text" id="background" placeholder="">
+        </div>
+
+        <p></p>
+
+        <div class="ui labeled fluid input">
+          <div class="ui label">
+            其他信息:
+          </div>
+          <input type="text" id="other_info" placeholder="">
+        </div>
+
+        <p></p>
+        <div class="ui center aligned  button" onclick="submitForm()">
+          提交评估
+        </div>
+        <div class="ui center aligned  button" onclick="fake()">
+          Fake
+        </div>
+
+      </div>
+
+      <div class="ui horizon divider"></div>
+
+      <div id="result">
+        <!--div class="ui segment">
+          {{ result }}
+        </div-->
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+function init() {
+  document.getElementById("result").style.visibility = "hidden";
+}
+
+function checkForm() {
+  var apply_advantage = $("#apply_advantage").val();
+  if (apply_advantage == "") {
+    return false;
+  }
+  var apply_disadvantage = $("#apply_disadvantage").val();
+  if (apply_disadvantage == "") {
+    return false;
+  }
+  var cnt_score = 0;
+  var tofel = $("#tofel").val();
+  if (tofel != "" && tofel != "0") {
+    cnt_score += 1;
+  }
+  var ielts = $("#ielts").val();
+  if (ielts != "" && ielts != "0") {
+    cnt_score += 1
+  }
+  if (cnt_score == 0) {
+    return false;
+  }
+  cnt_score = 0;
+  var gre = $("#gre").val();
+  if (gre != "" && gre != "0") {
+    cnt_score += 1;
+  }
+  var gmat = $("#gmat").val()
+  if (gmat != "" && gmat != "0") {
+    cnt_score += 1
+  }
+  if (cnt_score == 0) {
+    return false;
+  }
+  var gpa = $("#gpa").val();
+  if (gpa == "" || gpa == "0") {
+    return false;
+  }
+  var background = $("#background").val();
+  if (background == "") {
+    return false;
+  }
+  return true;
+}
+
+function fake() {
+  $("#apply_advantage").val("GPA高，实习经历丰富");
+  $("#apply_disadvantage").val("出国交换较少");
+  $("#tofel").val("108/120");
+  $("#gre").val("293/340");
+  $("#gpa").val("3.7/4");
+  $("#background").val("清华大学 金融专业");
+  $("#other_info").val("");
+}
+
+function submitForm() {
+  jQuery(document).ajaxSend(function(event, xhr, settings) {
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function sameOrigin(url) {
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    function safeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+ 
+    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+  });
+
+
+  if (checkForm() == true) {
+    var apply_advantage = $("#apply_advantage").val();
+    var apply_disadvantage = $("#apply_disadvantage").val();
+    var tofel = $("#tofel").val();
+    var ielts = $("#ielts").val();
+    var gre = $("#gre").val();
+    var gmat = $("#gmat").val();
+    var gpa = $("#gpa").val();
+    var background = $("#background").val();
+    var other_info = $("#other_info").val();
+    var ret = {'apply_advantage' : apply_advantage,
+               'apply_disadvantage' : apply_disadvantage,
+               'language_score' : '托福：' + tofel + '，雅思：' + ielts,
+               'science_score' : 'gre:' + gre + ', gmat:' + gmat,
+               'school_score' : gpa,
+               'background' : background,
+               'other_info' : other_info};
+    $.post("result/", {'data': JSON.stringify(ret)}, function(data) {
+      $("#result").html(data);
+      document.getElementById("result").style.visibility = "visible";
+    });
+  } else {
+    $("#result").html('<div class="ui center aligned segment">数据异常，请重试</div>');
+    document.getElementById("result").style.visibility = "visible";
+  }
+}
+</script>

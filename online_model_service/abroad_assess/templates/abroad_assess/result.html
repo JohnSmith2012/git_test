@@ -1,0 +1,26 @@
+{% if result %}
+<div class="ui segment">
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>School</th>
+      <th>Probability</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for school, prob in result %}
+    <tr>
+      <td>{{ school }}</td>
+      <td>{{ prob }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if error %}
+<div class="ui center aligned segment">
+  {{ error }}
+</div>
+{% endif %}
